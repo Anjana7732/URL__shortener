@@ -18,10 +18,13 @@ function rateLimiter(req, res, next) {
         if (userData.count >= 5) {
             const retryAfter = Math.ceil((60000 - (now - userData.startTime)) / 1000);
 
-            return res.status(429).json({
-                message: "Too many requests",
-                retryAfter
-            });
+            return res
+                .status(429)
+                .set("Retry-After", String(retryAfter))
+                .json({
+                    message: "Too many requests",
+                    retryAfter,
+                });
         }
 
         userData.count++;
