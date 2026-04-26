@@ -67,24 +67,3 @@ cd frontend
 npm install
 npm run dev
 ```
-
-## Docker (optional)
-
-Run this from the **project root** (the folder that contains `docker-compose.yml`, not from `backend/` or `frontend/`). That directory must include **`backend/Dockerfile`**, or the build will fail with *“open Dockerfile: no such file or directory”* on the backend service.
-
-```bash
-docker compose up -d --build
-```
-
-(Use `docker compose up --build` if you want logs in the foreground; `-d` runs in the background.)
-
-- **UI:** [http://localhost:3000](http://localhost:3000)  
-- **API:** [http://localhost:5000](http://localhost:5000) (mapped from the backend container’s port 3000)
-
-The frontend uses `VITE_API_URL` (set in `docker-compose.yml`) so the browser calls the API on port **5000**; local non-Docker dev still defaults to the API on port **3000**.
-
-### Do you need a `.env` file for Docker?
-
-- **With the current project:** you do **not** need a `.env` to start the containers, as long as your MongoDB connection is configured in `backend/database/connection.js` and Atlas (or your host) allows connections from the internet.
-- **Recommended later:** put sensitive values in a `.env` (and **never commit** real passwords). If you do, wire `MONGODB_URI` in code and pass it in `docker-compose` or `env_file` instead of hardcoding the URI.
-
